@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class Task {
     private String description;
 
     @Column(nullable = false, precision = 15, scale = 6)
-    private Double position;
+    private BigDecimal position;
 
     @ManyToOne
     @JoinColumn(name = "created_by")

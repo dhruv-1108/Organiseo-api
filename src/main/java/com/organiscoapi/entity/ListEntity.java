@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -30,7 +31,7 @@ public class ListEntity {
     private String name;
 
     @Column(nullable = false, precision = 10, scale = 4)
-    private Double position;
+    private BigDecimal  position;
 
     @CreatedDate
     @Column(updatable = false)
