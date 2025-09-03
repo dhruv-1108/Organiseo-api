@@ -1,0 +1,5 @@
+# Created at 2025-09-04T00:23:17.926
+Boot Manifest-JAR contains absolute paths in classpath 'E:\GitLab\Organiseo-api\target\test-classes'
+Hint: <argLine>-Djdk.net.URLClassPath.disableClassPathURLCheck=true</argLine>
+'other' has different root
+
