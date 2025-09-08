@@ -35,13 +35,9 @@ public class Board {
     @Column(updatable = false)
     private OffsetDateTime createdAt;
 
-    @ManyToMany
-    @JoinTable(
-            name = "board_members",
-            joinColumns = @JoinColumn(name = "board_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<User> members = new HashSet<>();
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BoardMember> members = new HashSet<>();
+
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListEntity> lists = new ArrayList<>();

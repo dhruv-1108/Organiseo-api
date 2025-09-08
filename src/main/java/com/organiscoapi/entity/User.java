@@ -57,6 +57,7 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @ManyToMany(mappedBy = "members")
-    private Set<Board> boards = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BoardMember> boards = new HashSet<>();
+
 }
