@@ -9,5 +9,8 @@ public class OrganiscoApiApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(OrganiscoApiApplication.class, args);
 	}
-
+	  @Bean
+	    public ModelMapper modelMapper() {
+	        return new ModelMapper();
+	    }
 }
