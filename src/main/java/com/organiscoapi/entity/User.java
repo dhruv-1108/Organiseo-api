@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.util.*;
 
@@ -26,7 +27,7 @@ public class User {
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column( nullable = false,unique = true, length = 255)
     private String email;
 
     @Column(nullable = false, length = 255)
@@ -42,12 +43,12 @@ public class User {
 
     @CreatedDate
     @Column(updatable = false)
-    private OffsetDateTime createdAt;
+    private Instant createdAt;
 
     @LastModifiedDate
-    private OffsetDateTime updatedAt;
+    private Instant updatedAt;
 
-    private OffsetDateTime lastLoginAt;
+    private Instant lastLoginAt;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
