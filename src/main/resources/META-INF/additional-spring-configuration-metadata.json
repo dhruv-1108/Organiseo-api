@@ -1,5 +1,17 @@
-{"properties": [{
-  "name": "flyway.postgresql.accept-unknown",
-  "type": "java.lang.String",
-  "description": "A description for 'flyway.postgresql.accept-unknown'"
-}]}
+{"properties": [
+  {
+    "name": "flyway.postgresql.accept-unknown",
+    "type": "java.lang.String",
+    "description": "A description for 'flyway.postgresql.accept-unknown'"
+  },
+  {
+    "name": "app.jwt-secret",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt-secret'"
+  },
+  {
+    "name": "app.jwt-expiration-milliseconds",
+    "type": "java.lang.String",
+    "description": "A description for 'app.jwt-expiration-milliseconds'"
+  }
+]}
