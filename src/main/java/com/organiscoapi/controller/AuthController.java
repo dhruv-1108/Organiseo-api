@@ -6,35 +6,30 @@ import com.organiscoapi.payload.RegisterDTO;
 import com.organiscoapi.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    private AuthService authService;
+    private final AuthService authService;
 
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
 
-    // Build Login REST API
+    // Login API
     @PostMapping(value = {"/login", "/signin"})
-    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDTO loginDto){
+    public ResponseEntity<JWTAuthResponse> login(@RequestBody LoginDTO loginDto) {
         String token = authService.login(loginDto);
-
         JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
         jwtAuthResponse.setAccessToken(token);
-
         return ResponseEntity.ok(jwtAuthResponse);
     }
 
-    // Build Register REST API
+    // Register API
     @PostMapping(value = {"/register", "/signup"})
-    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto){
+    public ResponseEntity<String> register(@RequestBody RegisterDTO registerDto) {
         String response = authService.register(registerDto);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }

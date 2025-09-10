@@ -1,5 +1,7 @@
 package com.organiscoapi.payload;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,5 +16,5 @@ public class RegisterDTO {
     private String username;
     private String email;
     private String password;
-    private String role;
+    private UUID role;
 }

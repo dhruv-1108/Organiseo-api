@@ -17,18 +17,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 @Service
 public class AuthServiceImpl implements AuthService {
 
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private PasswordEncoder passwordEncoder;
-    private JwtTokenProvider jwtTokenProvider;
-
+    private final AuthenticationManager authenticationManager;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
     public AuthServiceImpl(AuthenticationManager authenticationManager,
                            UserRepository userRepository,
@@ -44,45 +42,47 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String login(LoginDTO loginDto) {
-
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
-                loginDto.getUsernameOrEmail(), loginDto.getPassword()));
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginDto.getUsernameOrEmail(),
+                        loginDto.getPassword()
+                )
+        );
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtTokenProvider.generateToken(authentication);
 
+        if (token == null || token.isEmpty()) {
+            throw new OrganiscoApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to generate JWT token");
+        }
+
         return token;
     }
 
+
     @Override
     public String register(RegisterDTO registerDto) {
-
-        // add check for username exists in database
-        if(userRepository.existsByUsername(registerDto.getUsername())){
-            throw new OrganiscoApiException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
+        if (userRepository.existsByUsername(registerDto.getUsername())) {
+            throw new OrganiscoApiException(HttpStatus.BAD_REQUEST, "Username already exists!");
         }
 
-        // add check for email exists in database
-        if(userRepository.existsByEmail(registerDto.getEmail())){
-            throw new OrganiscoApiException(HttpStatus.BAD_REQUEST, "Email is already exists!.");
+        if (userRepository.existsByEmail(registerDto.getEmail())) {
+            throw new OrganiscoApiException(HttpStatus.BAD_REQUEST, "Email already exists!");
         }
 
         User user = new User();
         user.setFullName(registerDto.getName());
         user.setUsername(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
-        user.setPasswordHash(passwordEncoder.encode(registerDto.getPassword()));
+        user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
-        Set<Role> roles = new HashSet<>();
-        Role userRole = roleRepository.findByName("ROLE_USER").get();
-        roles.add(userRole);
-        user.setRoles(roles);
+        Role role = roleRepository.findById(registerDto.getRole())
+                .orElseThrow(() -> new OrganiscoApiException(HttpStatus.BAD_REQUEST, "Invalid role ID"));
+        user.setRoles(Set.of(role));
 
         userRepository.save(user);
 
-        return "User registered successfully!.";
+        return "User registered successfully!";
     }
-
-	
 }

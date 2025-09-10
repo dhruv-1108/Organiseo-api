@@ -39,7 +39,7 @@ public class UserDTO {
 	    private String email;
 
 	
-	    private String passwordHash;
+	    private String password;
 
 	    private String fullName;
 
@@ -58,8 +58,8 @@ public class UserDTO {
 	    private Instant lastLoginAt;
 
 
-	    private Set<Role> roles = new HashSet<>();
-
-	
-	    private Set<BoardMember> boards = new HashSet<>();
+//	    private Set<Role> roles = new HashSet<>();
+//
+//	
+//	    private Set<BoardMember> boards = new HashSet<>();
 }
